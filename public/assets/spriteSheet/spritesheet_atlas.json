@@ -1,0 +1,190 @@
+{
+  "frames": [
+    {
+      "filename": "fire-3",
+      "frame": {
+        "w": 512,
+        "h": 512,
+        "x": 0,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "fire-2",
+      "frame": {
+        "w": 512,
+        "h": 512,
+        "x": 512,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-0",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 0,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-1",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 32,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-2",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 64,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-3",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 96,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-4",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 128,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-5",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 160,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-6",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 192,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-8",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 224,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "dude-7",
+      "frame": {
+        "w": 32,
+        "h": 48,
+        "x": 256,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "co2",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "antidote",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 320,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "star",
+      "frame": {
+        "w": 24,
+        "h": 22,
+        "x": 352,
+        "y": 512
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ],
+  "meta": {
+    "description": "Atlas generado con Atlas Packer Gamma V2",
+    "web": "https://gammafp.github.io/atlas-packer-phaser/"
+  }
+}

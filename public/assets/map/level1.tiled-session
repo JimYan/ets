@@ -1,0 +1,62 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "level1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.67,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 546.2686567164178,
+                "y": 321.64179104477614
+            }
+        },
+        "level1.tmx#sprite": {
+            "scaleInDock": 1
+        },
+        "level2.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.7303125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 518.9559264013692,
+                "y": 323.8339751818571
+            }
+        },
+        "level2.tmx#sprite": {
+            "scaleInDock": 1
+        },
+        "level3.tmx": {
+            "scale": 0.7303125,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 480.6161745827984,
+                "y": 321.0954214805306
+            }
+        },
+        "level3.tmx#sprite": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "/Users/jimyan/my/project/game/ets/phaser3-template-main/public/assets/map",
+    "last.imagePath": "/Users/jimyan/my/project/game/ets/phaser3-template-main/public/assets/map",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+    ],
+    "project": "level1.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "level2.tmx"
+    ],
+    "tileset.embedInMap": true
+}

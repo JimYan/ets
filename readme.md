@@ -28,6 +28,37 @@ $ pnpm dev
 $ pnpm build
 ```
 
+**主要文件说明**
+
+```
+./src/
+├── classes
+│   ├── CountdownText.ts #倒计时类
+│   ├── actor.ts #精灵基类
+│   ├── dude.ts #精灵
+│   ├── text.ts #文本类
+│   ├── timer.ts #定时器
+│   └── utils.ts #游戏切换关卡类
+├── config
+│   └── constant.ts #游戏参数配置
+├── index.ts # 游戏入口
+├── scenes #场景
+│   ├── end.ts #结束场景
+│   ├── gameMain.ts #游戏主场景
+│   ├── gameUi.ts #游戏UI场景
+│   └── start.ts #开始游戏场景
+├── types
+│   └── global.d.ts
+└── vite-env.d.ts
+./public
+└── assets
+├── map 地图关卡文件
+├── sprite 图标目录
+└── spriteSheet 图标合并目录
+├── spritesheet.png
+└── spritesheet_atlas.json 图标合并配置
+```
+
 ## 第三方资源声明
 
 本项目包含了一些来自第三方的图片资源，在此声明这些资源的来源:

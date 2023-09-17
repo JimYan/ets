@@ -6,6 +6,8 @@
 
 在线体验地址：https://jimyantest2.oss-cn-shenzhen.aliyuncs.com/index.html
 
+> 在线体验仅支持 PC 端参与体验，进入游戏后使用键盘的方向键来控制精灵的移动方向
+
 ## Setup
 
 开发环境要求：

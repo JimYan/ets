@@ -12,6 +12,7 @@ import { GameScene } from "./scenes/gameMain";
 import { StartScene } from "./scenes/start";
 import { EndScene } from "./scenes/end";
 import { GameUiScene } from "./scenes/gameUi";
+import { AudioScene } from "./scenes/audio";
 
 type GameConfigExtended = Phaser.Types.Core.GameConfig & {
   winScore: number;
@@ -66,7 +67,7 @@ export const gameConfig: GameConfigExtended = {
   },
   // scene: [DemoScene],
   // scene: [LoadingScene, GameScene, UIScene, AudioScene],
-  scene: [StartScene, GameScene, GameUiScene, EndScene],
+  scene: [StartScene, GameScene, GameUiScene, EndScene, AudioScene],
   winScore: 100,
 };
 

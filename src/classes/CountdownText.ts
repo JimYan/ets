@@ -29,6 +29,15 @@ export default class CountdownText extends Phaser.GameObjects.Text {
 
   getConfig(cb?: () => void) {
     const self = this;
+    const dingMusic = this.scene.sound.add("ding", {
+      loop: false,
+      volume: 0.3,
+    });
+    const goMusic = this.scene.sound.add("go", {
+      loop: false,
+      volume: 0.5,
+    });
+
     const tween: {
       scaleX: number;
       scaleY: number;
@@ -37,7 +46,7 @@ export default class CountdownText extends Phaser.GameObjects.Text {
       ease: string;
       onStart?: () => void;
     }[] = [];
-    this.texts.forEach((t) => {
+    this.texts.forEach((t, i) => {
       tween.push({
         scaleX: 3,
         scaleY: 3,
@@ -56,6 +65,9 @@ export default class CountdownText extends Phaser.GameObjects.Text {
         alpha: 0,
         duration: 500, // 放大的持续时间为 500 毫秒
         ease: "Power2",
+        onStart: () => {
+          self.texts.length === i + 1 ? goMusic.play() : dingMusic.play();
+        },
       });
     });
     return {
@@ -73,6 +85,5 @@ export default class CountdownText extends Phaser.GameObjects.Text {
     this.setAlpha(1);
     this.setText(this.texts[0]);
     this.scene.tweens.chain(this.getConfig()).play();
-    // this.timeline.play();
   }
 }

@@ -1,8 +1,13 @@
 import { Scene } from "phaser";
-
+import { GameScene } from "../scenes/gameMain";
 import { Actor } from "./actor";
 import { Text } from "./text";
-import { PARAMETERS, EVENTS_NAME, dudeStatus } from "../config/constant";
+import {
+  PARAMETERS,
+  EVENTS_NAME,
+  dudeStatus,
+  gameStatus,
+} from "../config/constant";
 
 export class Dude extends Actor {
   private hpValue!: Text;
@@ -12,7 +17,7 @@ export class Dude extends Actor {
   private antidoteNumber = 0; //解药剂量
   private deathPoisonNum = 30;
   private _status = dudeStatus.start;
-  constructor(scene: Scene, x: number, y: number, level: 1 | 2 | 3) {
+  constructor(scene: GameScene, x: number, y: number, level: 1 | 2 | 3) {
     super(scene, x, y, "sprite", "dude-5");
 
     this.params = PARAMETERS[`level_${level}`];
@@ -28,24 +33,32 @@ export class Dude extends Actor {
 
   update(): void {
     // console.log("x");
+    if ((this.scene as GameScene).status !== gameStatus.start) {
+      return;
+    }
     const body = this.getBody();
     const speed = this.params.spriteSpeed;
     // body.setVelocity(0, 0);
     if (this.cursors.left.isDown) {
       this.getBody().setVelocityX(-speed);
       this.play("left", true);
+      this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "left");
     } else if (this.cursors.right.isDown) {
       this.getBody().setVelocityX(speed);
       this.play("right", true);
+      this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "right");
     } else if (this.cursors.down.isDown) {
       this.play("turn");
       body.setVelocityY(speed);
+      this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "down");
     } else if (this.cursors.up.isDown) {
       this.play("turn");
       body.setVelocityY(-speed);
+      this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "up");
     } else {
       this.play("turn");
       body.setVelocity(0, 0);
+      this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "stop");
     }
   }
 

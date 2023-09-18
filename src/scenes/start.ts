@@ -19,6 +19,11 @@ export class StartScene extends Scene {
     this.load.tilemapTiledJSON("map2", "map/level2.json");
     this.load.tilemapTiledJSON("map3", "map/level3.json");
 
+    this.load.audio("bgMusic", "sound/Wind.mp3");
+    this.load.audio("ding", "sound/ding.mp3");
+    this.load.audio("go", "sound/go.wav");
+    this.load.audio("running", "sound/running.mp3");
+
     const percentText = this.make
       .text({
         x: (this.game.config.width as number) / 2,

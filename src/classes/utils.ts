@@ -18,6 +18,10 @@ export const switchLevel = (scene: Phaser.Scene, level: tLevel) => {
       scene.scene.start("ui-scene", {
         level: level,
       });
+
+      scene.scene.start("audio-scene", {
+        level: level,
+      });
     }
   );
   scene.add.existing(countdownText);

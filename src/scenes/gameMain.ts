@@ -22,8 +22,18 @@ export class GameScene extends Scene {
   antidoteLayer!: Phaser.Tilemaps.TilemapLayer;
   pointerLayer!: Phaser.Tilemaps.ObjectLayer;
   posionTimer!: Phaser.Time.TimerEvent;
+  _status: gameStatus = gameStatus.start; // 游戏状态
   constructor() {
     super("game-scene");
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  set status(s: gameStatus) {
+    this._status = s;
+    this.game.events.emit(EVENTS_NAME.gameStatusChange, s);
   }
 
   preload(): void {}
@@ -231,10 +241,12 @@ export class GameScene extends Scene {
 
   private dudeStatusChange(s: dudeStatus) {
     // console.log(s, this);
+    const self = this;
     switch (s) {
       case dudeStatus.posion:
       case dudeStatus.sparks:
         this.physics.pause();
+        self.status = gameStatus.fail;
         this.scene.start("end-scene", {
           status: gameStatus.fail,
           level: this.level,
@@ -244,11 +256,13 @@ export class GameScene extends Scene {
       case dudeStatus.victory:
         this.physics.pause();
         if (this.level >= 3) {
+          self.status = gameStatus.victory;
           this.scene.start("end-scene", {
             status: gameStatus.victory,
           });
           break;
         } else {
+          self.status = gameStatus.next;
           // 通关，进入下一关
           //   switchLevel(this, (this.level + 1) as tLevel);
           this.scene.start("end-scene", {

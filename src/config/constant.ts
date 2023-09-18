@@ -31,6 +31,8 @@ export enum EVENTS_NAME {
   dudePosionChange = "dudePosionChange", // dude体内毒气发生变化
   dudeDeathByPosion = "dudeDeathByPosion", //dude被毒死
   dudeStatusChange = "dudeStatusChange", // dude状态变化
+  dudeMoving = "dudeMoving", // 精灵移动
+  gameStatusChange = "gameStatusChange", // 游戏状态变化
 }
 
 // 精灵状态

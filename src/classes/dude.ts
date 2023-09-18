@@ -41,18 +41,18 @@ export class Dude extends Actor {
     // body.setVelocity(0, 0);
     if (this.cursors.left.isDown) {
       this.getBody().setVelocityX(-speed);
-      this.play("left", true);
+      this.play("run-left", true);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "left");
     } else if (this.cursors.right.isDown) {
       this.getBody().setVelocityX(speed);
-      this.play("right", true);
+      this.play("run-right", true);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "right");
     } else if (this.cursors.down.isDown) {
-      this.play("turn");
+      this.play("run-turn", true);
       body.setVelocityY(speed);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "down");
     } else if (this.cursors.up.isDown) {
-      this.play("turn");
+      this.play("run-turn", true);
       body.setVelocityY(-speed);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "up");
     } else {
@@ -117,6 +117,7 @@ export class Dude extends Actor {
       EVENTS_NAME.dudePosionChange,
       this.getPosionDiffAntidote()
     );
+    this.scene.game.events.emit(EVENTS_NAME.dudeGetAntidote);
   }
 
   public getAntidote() {

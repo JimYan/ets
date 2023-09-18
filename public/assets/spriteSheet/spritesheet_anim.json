@@ -1,0 +1,88 @@
+{
+    "anims": [
+        {
+            "key": "run-turn",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 30,
+            "frames": [
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-3"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-4"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-5"
+                }
+            ]
+        },
+        {
+            "key": "run-right",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-5"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-6"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-7"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-8"
+                }
+            ]
+        },
+        {
+            "key": "run-left",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-0"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-1"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-2"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "dude-3"
+                }
+            ]
+        },
+        {
+            "key": "fire",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 8,
+            "frames": [
+                {
+                    "key": "spritesheet",
+                    "frame": "fire-3"
+                },
+                {
+                    "key": "spritesheet",
+                    "frame": "fire-2"
+                }
+            ]
+        }
+    ]
+}

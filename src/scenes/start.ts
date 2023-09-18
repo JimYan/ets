@@ -7,9 +7,18 @@ export class StartScene extends Scene {
 
   preload(): void {
     this.load.baseURL = "assets/";
+    this.load.animation("dude", "spriteSheet/spritesheet_anim.json");
     // 初始化雪碧图
     this.load.atlas(
       "sprite",
+      "spriteSheet/spritesheet.png",
+      "spriteSheet/spritesheet_atlas.json"
+    );
+
+    this.load.image("grass", "sprite/Grass_04.png");
+
+    this.load.atlas(
+      "spritesheet",
       "spriteSheet/spritesheet.png",
       "spriteSheet/spritesheet_atlas.json"
     );
@@ -23,6 +32,9 @@ export class StartScene extends Scene {
     this.load.audio("ding", "sound/ding.mp3");
     this.load.audio("go", "sound/go.wav");
     this.load.audio("running", "sound/running.mp3");
+    this.load.audio("pick", "sound/pick.mp3");
+    this.load.audio("fail", "sound/Sad.mp3");
+    this.load.audio("win", "sound/winner.mp3");
 
     const percentText = this.make
       .text({
@@ -45,6 +57,12 @@ export class StartScene extends Scene {
   }
 
   create(): void {
+    const width = this.scale.width as number;
+    const height = this.scale.height as number;
+    this.add
+      .tileSprite(0, 0, width, height, "grass")
+      .setAlpha(0.2)
+      .setOrigin(0, 0);
     switchLevel(this, 1);
   }
 }

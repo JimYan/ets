@@ -8,11 +8,11 @@ export type iSound =
   | Phaser.Sound.WebAudioSound;
 
 export class AudioScene extends Scene {
-  private backmusic!: iSound;
-  private ao!: iSound;
-  private crash3!: iSound;
-  private pi!: iSound;
-  private running!: iSound;
+  private backmusic!: iSound; // 背景音乐
+  private running!: iSound; // 跑步音乐
+  private pick!: iSound; // 拾取音乐
+  private fail!: iSound; // 失败音乐
+  private win!: iSound; // 胜利音乐
   private gameStatus: gameStatus = gameStatus.start;
 
   constructor() {
@@ -22,54 +22,30 @@ export class AudioScene extends Scene {
   create(props: any): void {
     this.initListeners();
 
+    this.game.sound.setMute(true); // 暂时静音。
     // 背景音乐
     this.backmusic = this.sound.add("bgMusic", { loop: true, volume: 0.3 });
     this.backmusic.play();
 
-    this.running = this.sound.add("running", { loop: true, volume: 0.3 });
-    // this.running.play();
-    // this.backmusic.play({ loop: true, volume: 0.1 });
-
-    // this.ao = this.sound.add("fashe"); // 发射子弹
-    // this.crash3 = this.sound.add("crash3"); // 被敌机击中
-    // this.pi = this.sound.add("pi"); // 击中敌机
+    this.running = this.sound.add("running", { loop: false, volume: 0.3 });
+    this.pick = this.sound.add("pick", { loop: false, volume: 0.3 });
+    this.fail = this.sound.add("fail", { loop: false, volume: 0.3 });
+    this.win = this.sound.add("win", { loop: false, volume: 0.3 });
   }
 
   gameEnd(status: gameStatus): void {
-    this.gameStatus = status;
-    // if (status === GameStatus.PAUSE) {
-    //   this.backmusic.stop();
-    // } else if (status === GameStatus.PLAYING) {
-    //   console.log("play");
-    //   this.backmusic.play({ loop: true, volume: 0.3 });
-    // }
-  }
-
-  // 击中敌机
-  shoot(): void {
-    // SoundFade.fadeIn(this.pi, 3000);
-    this.pi.play();
-  }
-
-  // 被敌机击中
-  attach(): void {
-    this.crash3.play();
-    // SoundFade.fadeIn(this.crash3, 3000);
-    console.log("attach");
-    // this.crash3.fadeIn(1000);
-  }
-
-  // 发射子弹
-  newbullet(): void {
-    this.ao.play({
-      volume: 0.3,
-    });
+    if (status === gameStatus.start) {
+      //   this.backmusic.play();
+    } else if (status === gameStatus.fail) {
+      this.fail.play();
+      this.backmusic.stop();
+    } else if (status === gameStatus.victory || status === gameStatus.next) {
+      this.win.play();
+    }
   }
 
   private dudeMoving(s: string) {
-    console.log(s);
     if (this.gameStatus !== gameStatus.start) {
-      this.running.setVolume(0);
       return;
     }
     if (s === "stop") {
@@ -82,9 +58,12 @@ export class AudioScene extends Scene {
   private initListeners(): void {
     this.game.events.on(EVENTS_NAME.dudeMoving, this.dudeMoving, this); // 精灵移动
     this.game.events.on(EVENTS_NAME.gameStatusChange, this.gameEnd, this); // 游戏结束
-    // this.game.events.on(EVENTS_NAME.gameStatus, this.gameEnd, this); // 游戏结束
-    // this.game.events.on(EVENTS_NAME.planeAttack, this.attach, this); // 被敌机击中
-    // this.game.events.on(EVENTS_NAME.shoot, this.shoot, this); // 击中敌机
-    // this.game.events.on(EVENTS_NAME.newBullet, this.newbullet, this); // 发射子弹
+    this.game.events.on(
+      EVENTS_NAME.dudeGetAntidote,
+      () => {
+        this.pick.play();
+      },
+      this
+    );
   }
 }

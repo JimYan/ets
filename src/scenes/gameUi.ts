@@ -14,6 +14,10 @@ export class GameUiScene extends Scene {
   create(props: any): void {
     const width = this.scale.width as number;
     const height = this.scale.height as number;
+    this.add
+      .tileSprite(0, 0, width, height, "grass")
+      .setAlpha(0.2)
+      .setOrigin(0, 0);
     this.tipsText = new Text(this, width / 2 - 50, 10, `第${props.level}关`);
     this.add.existing(this.tipsText);
 

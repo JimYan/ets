@@ -39,7 +39,8 @@ export class GameScene extends Scene {
   preload(): void {}
 
   create(props: { level: tLevel }): void {
-    console.log(props);
+    // console.log(props);
+    this._status = gameStatus.start;
     this.params = PARAMETERS[`level_${props.level}`];
     this.level = props.level || 1;
     const width = this.game.scale.width;
@@ -64,7 +65,13 @@ export class GameScene extends Scene {
    * @param level 当前关卡
    */
   private initMap(level: tLevel) {
-    const map = this.make.tilemap({ key: `map${level}` }); // 加载地图
+    const width = this.game.scale.width;
+    const map = this.make.tilemap({
+      key: `map${level}`,
+      tileWidth: 32,
+      tileHeight: 32,
+    }); // 加载地图
+
     const mapSprite = map.addTilesetImage(
       "sprite",
       "mapSprite"
@@ -76,6 +83,7 @@ export class GameScene extends Scene {
       0,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建背景图层
+    // this.bgLayer.setOrigin(0.5, 0.5);
 
     this.wallLayer = map.createLayer(
       "wall",
@@ -255,21 +263,27 @@ export class GameScene extends Scene {
         break;
       case dudeStatus.victory:
         this.physics.pause();
+        let toLevel = this.level;
         if (this.level >= 3) {
           self.status = gameStatus.victory;
-          this.scene.start("end-scene", {
-            status: gameStatus.victory,
-          });
-          break;
         } else {
           self.status = gameStatus.next;
-          // 通关，进入下一关
-          //   switchLevel(this, (this.level + 1) as tLevel);
-          this.scene.start("end-scene", {
-            status: gameStatus.next,
-            level: this.level + 1,
-          });
+          toLevel = (this.level + 1) as tLevel;
         }
+        this.add
+          .timeline([
+            {
+              at: 1000,
+              run: () => {
+                this.scene.start("end-scene", {
+                  status: self.status,
+                  level: toLevel,
+                });
+              },
+            },
+          ])
+          .play();
+        break;
     }
   }
 }

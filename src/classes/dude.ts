@@ -5,7 +5,6 @@ import { Text } from "./text";
 import { PARAMETERS, EVENTS_NAME, dudeStatus } from "../config/constant";
 
 export class Dude extends Actor {
-  // private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private hpValue!: Text;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private params!: typeof PARAMETERS.level_1;
@@ -48,9 +47,6 @@ export class Dude extends Actor {
       this.play("turn");
       body.setVelocity(0, 0);
     }
-    // this.getBody().setVelocity(0);
-    // this.hpValue.setPosition(this.x, this.y - this.height * 0.4);
-    // this.hpValue.setOrigin(0.8, 0.5);
   }
 
   private initAnimations(): void {
@@ -83,7 +79,10 @@ export class Dude extends Actor {
     });
   }
 
-  public addPosion(number = 10) {
+  /**
+   * 新增毒气接口
+   */
+  public addPosion() {
     this.poisonNumber += this.params.poisonGasDosage;
     const diff = this.getPosionDiffAntidote();
     if (diff > this.deathPoisonNum) {
@@ -99,7 +98,7 @@ export class Dude extends Actor {
     return this.poisonNumber;
   }
 
-  public addAntidote(number = 10) {
+  public addAntidote() {
     this.antidoteNumber += this.params.antidoteDosage;
     this.scene.game.events.emit(
       EVENTS_NAME.dudePosionChange,
@@ -123,9 +122,4 @@ export class Dude extends Actor {
   get status() {
     return this._status;
   }
-
-  //   public addHP(): void {
-  //     this.hp = this.hp + 10;
-  //     this.hpValue.setText(this.hp.toString());
-  //   }
 }

@@ -32,7 +32,7 @@ $ pnpm build
 
 **主要文件说明**
 
-```
+```bash
 ./src/
 ├── classes
 │   ├── CountdownText.ts #倒计时类
@@ -54,11 +54,12 @@ $ pnpm build
 └── vite-env.d.ts
 ./public
 └── assets
-├── map 地图关卡文件
-├── sprite 图标目录
-└── spriteSheet 图标合并目录
+├── map #地图关卡文件
+├── sprite #图标目录
+├── sound #游戏音效
+└── spriteSheet #图标合并目录
 ├── spritesheet.png
-└── spritesheet_atlas.json 图标合并配置
+└── spritesheet_atlas.json #图标合并配置
 ```
 
 ## Feature
@@ -70,11 +71,14 @@ $ pnpm build
 
 本项目包含了一些来自第三方的图片资源，在此声明这些资源的来源:
 
-1. **antidote.png co2.png fire-2.png fire-3.png map/sprite.png** 来自https://www.flaticon.com/下载。
-2. **spritesheet.png** 使用https://gammafp.com/tool/atlas-packer/工具生成。
+1. **antidote.png co2.png fire-2.png fire-3.png map/sprite.png** 来自 https://www.flaticon.com/ 下载。
+2. **spritesheet.png** 使用 https://gammafp.com/tool/atlas-packer/ 工具生成。
+3. **游戏中所有的音效** 来自 https://soundbible.com 下载，遵循 Attribution 3.0 协议。
 
 如果您有任何关于这些资源的疑问或投诉，请随时联系我，我将尽力解决问题。
 
 ## 许可
 
-这个项目采用 [MIT 许可证](LICENSE)。请仔细阅读许可证，以了解您可以做什么以及什么是不允许的。
+这个项目源码采用 [MIT 许可证](LICENSE)。请仔细阅读许可证，以了解您可以做什么以及什么是不允许的。
+
+第三方资源请遵循上方关于[第三方资源声明](README.md#第三方资源声明)的协议许可。

@@ -38,8 +38,8 @@ export class StartScene extends Scene {
 
     const percentText = this.make
       .text({
-        x: (this.game.config.width as number) / 2,
-        y: (this.game.config.height as number) / 2 - 5,
+        x: (this.game.scale.width as number) / 2,
+        y: (this.game.scale.height as number) / 2,
         text: "0%",
         style: {
           font: "18px monospace",

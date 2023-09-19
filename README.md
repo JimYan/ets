@@ -4,7 +4,7 @@
 
 逃出生天游戏设计：https://tungsten-dewberry-df7.notion.site/a7d836c289fe479f9fd17a4352e41a37
 
-在线体验地址：https://jimyantest2.oss-cn-shenzhen.aliyuncs.com/index.html
+在线体验地址：https://jimyan.github.io/ets/
 
 > 在线体验仅支持 PC 端参与体验，进入游戏后使用键盘的方向键来控制精灵的移动方向
 

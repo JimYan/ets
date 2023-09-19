@@ -223,12 +223,14 @@ export class GameScene extends Scene {
         x: 0.05,
         y: 0.05,
       },
+
       collideWorldBounds: true,
       bounceX: 1,
       bounceY: 1,
 
       setXY: { x, y }, // 设置初始x和y坐标, 并且设置每一个间隔的X
     });
+    this.fires.playAnimation("fire"); // 播放火苗动画
     this.fires.children.iterate((child: any, index: number): any => {
       //  Give each star a slightly different bounce
       const speed = Phaser.Math.FloatBetween(

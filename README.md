@@ -73,9 +73,10 @@ $ pnpm build
 本项目包含了一些来自第三方的图片资源，在此声明这些资源的来源:
 
 1. **antidote.png co2.png fire-2.png fire-3.png map/sprite.png** 来自 https://www.flaticon.com/ 下载。
-2. **spritesheet.png** 来自 https://gammafp.com/tool/atlas-packer/ 工具生成。
+2. **spritesheet.png** 使用 https://gammafp.com/tool/atlas-packer/ 生成。
 3. **游戏中所有的音效** 来自 https://soundbible.com 下载，遵循 Attribution 3.0 协议。
 4. **游戏中的草地背景** 来自 https://opengameart.org 下载。
+5. **精灵移动、火苗等动画** 使用 https://gammafp.com/tool/animator/ 生成。
 
 如果您有任何关于这些资源的疑问或投诉，请随时联系我，我将尽力解决问题。
 

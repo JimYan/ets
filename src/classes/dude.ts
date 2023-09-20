@@ -34,8 +34,6 @@ export class Dude extends Actor {
     const keyboard = this.scene.input.keyboard;
     this.cursors = keyboard!.createCursorKeys();
 
-    console.log(this.scene.game.device.os.desktop);
-    console.log(window.DeviceOrientationEvent);
     if (!this.scene.game.device.os.desktop) {
       window.addEventListener(
         "deviceorientation",
@@ -46,31 +44,36 @@ export class Dude extends Actor {
   }
 
   private handleOrientation(event: DeviceOrientationEvent): void {
-    console.log("x");
+    // console.log("x");
     var alpha = event.alpha as number; // 设备绕z轴的旋转角度
     var beta = event.beta as number; // 设备绕x轴的旋转角度
     var gamma = event.gamma as number; // 设备绕y轴的旋转角度
 
-    console.log(alpha, beta, gamma);
-    const diff = 30;
+    console.log(gamma);
+    const diffX = 10;
+    const diffY = 5;
 
-    if ((gamma as number) > diff) {
-      this._directionX = "left" as tOrigin;
-    } else if (gamma < -diff) {
-      this._directionX = "right" as tOrigin;
+    if ((gamma as number) > diffX) {
+      this._directionX = "right";
+      console.log("right");
+    } else if (gamma < -diffX) {
+      console.log("left");
+      this._directionX = "left";
+    }
+    // else {
+    //   // 手机水平
+    //   console.log("手机水平");
+    //   this._directionX = "turn";
+    // }
+    else if (beta > diffY) {
+      this._directionX = "down";
+    } else if (beta < -diffY) {
+      this._directionX = "up";
     } else {
-      // 手机水平
-      console.log("手机水平");
-      this._directionX = "turn" as tOrigin;
+      this._directionX = "turn";
     }
 
-    if (beta > diff) {
-      this._directionY = "down" as tOrigin;
-    } else if (beta < -diff) {
-      this._directionY = "up" as tOrigin;
-    } else {
-      this._directionY = "turn" as tOrigin;
-    }
+    console.log(this._directionX);
 
     // 限制精灵在屏幕内移动
 
@@ -87,7 +90,7 @@ export class Dude extends Actor {
 
     if (!this.scene.game.device.os.desktop) {
       this.updateDude(this._directionX);
-      this.updateDude(this._directionY);
+      // this.updateDude(this._directionY);
       return;
     }
     // body.setVelocity(0, 0);

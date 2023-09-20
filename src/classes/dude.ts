@@ -9,6 +9,8 @@ import {
   gameStatus,
 } from "../config/constant";
 
+type tOrigin = "left" | "right" | "up" | "down" | "turn";
+
 export class Dude extends Actor {
   private hpValue!: Text;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -17,6 +19,8 @@ export class Dude extends Actor {
   private antidoteNumber = 0; //解药剂量
   private deathPoisonNum = 30;
   private _status = dudeStatus.start;
+  private _directionX: tOrigin = "turn";
+  private _directionY: tOrigin = "turn";
   constructor(scene: GameScene, x: number, y: number, level: 1 | 2 | 3) {
     super(scene, x, y, "sprite", "dude-5");
 
@@ -29,6 +33,48 @@ export class Dude extends Actor {
 
     const keyboard = this.scene.input.keyboard;
     this.cursors = keyboard!.createCursorKeys();
+
+    console.log(this.scene.game.device.os.desktop);
+    console.log(window.DeviceOrientationEvent);
+    if (!this.scene.game.device.os.desktop) {
+      window.addEventListener(
+        "deviceorientation",
+        this.handleOrientation.bind(this),
+        true
+      );
+    }
+  }
+
+  private handleOrientation(event: DeviceOrientationEvent): void {
+    console.log("x");
+    var alpha = event.alpha as number; // 设备绕z轴的旋转角度
+    var beta = event.beta as number; // 设备绕x轴的旋转角度
+    var gamma = event.gamma as number; // 设备绕y轴的旋转角度
+
+    console.log(alpha, beta, gamma);
+    const diff = 30;
+
+    if ((gamma as number) > diff) {
+      this._directionX = "left" as tOrigin;
+    } else if (gamma < -diff) {
+      this._directionX = "right" as tOrigin;
+    } else {
+      // 手机水平
+      console.log("手机水平");
+      this._directionX = "turn" as tOrigin;
+    }
+
+    if (beta > diff) {
+      this._directionY = "down" as tOrigin;
+    } else if (beta < -diff) {
+      this._directionY = "up" as tOrigin;
+    } else {
+      this._directionY = "turn" as tOrigin;
+    }
+
+    // 限制精灵在屏幕内移动
+
+    // this.sprite.x = newX;
   }
 
   update(): void {
@@ -38,20 +84,42 @@ export class Dude extends Actor {
     }
     const body = this.getBody();
     const speed = this.params.spriteSpeed;
+
+    if (!this.scene.game.device.os.desktop) {
+      this.updateDude(this._directionX);
+      this.updateDude(this._directionY);
+      return;
+    }
     // body.setVelocity(0, 0);
     if (this.cursors.left.isDown) {
+      this.updateDude("left" as tOrigin);
+    } else if (this.cursors.right.isDown) {
+      this.updateDude("right" as tOrigin);
+    } else if (this.cursors.down.isDown) {
+      this.updateDude("down" as tOrigin);
+    } else if (this.cursors.up.isDown) {
+      this.updateDude("up" as tOrigin);
+    } else {
+      this.updateDude("turn");
+    }
+  }
+
+  private updateDude(dorigin: tOrigin) {
+    const body = this.getBody();
+    const speed = this.params.spriteSpeed;
+    if (dorigin === "left") {
       this.getBody().setVelocityX(-speed);
       this.play("run-left", true);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "left");
-    } else if (this.cursors.right.isDown) {
+    } else if (dorigin === "right") {
       this.getBody().setVelocityX(speed);
       this.play("run-right", true);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "right");
-    } else if (this.cursors.down.isDown) {
+    } else if (dorigin === "down") {
       this.play("run-turn", true);
       body.setVelocityY(speed);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "down");
-    } else if (this.cursors.up.isDown) {
+    } else if (dorigin === "up") {
       this.play("run-turn", true);
       body.setVelocityY(-speed);
       this.scene.game.events.emit(EVENTS_NAME.dudeMoving, "up");

@@ -2,9 +2,12 @@
 
 > 本仓库是使用 TS + Phaser3 + Tiled 实现的逃出生天小游戏的源码，同时也是某学校的软件设计期末考试材料，仅供大家参考学习使用，本系统不会涉及到任何商业应用。
 
-逃出生天游戏设计：https://tungsten-dewberry-df7.notion.site/a7d836c289fe479f9fd17a4352e41a37
+相关游戏逻辑和技术方案设计信息：
 
-在线体验地址：https://jimyan.github.io/ets/
+- 游戏方案设计：https://tungsten-dewberry-df7.notion.site/a7d836c289fe479f9fd17a4352e41a37
+- 开发文档：https://tungsten-dewberry-df7.notion.site/1120929b2c2b4ca28a3dbceeedb335d7
+- 仓库地址：https://github.com/jimYan/ets
+- 在线体验地址：https://jimyan.github.io/ets/
 
 > 在线体验仅支持 PC 端参与体验，进入游戏后使用键盘的方向键来控制精灵的移动方向
 
@@ -67,6 +70,7 @@ $ pnpm build
 - [x] 游戏音效
 - [ ] 移动端支持
 - [ ] 地图位置优化
+- [x] 使用 github actions 发布到 github pages
 
 ## 第三方资源声明
 

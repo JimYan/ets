@@ -4,15 +4,17 @@ export const PARAMETERS = {
     poisonGasDosage: 5, // 毒气剂量
     antidoteQuantity: 5, // 解药数量
     antidoteDosage: 10, // 解药剂量
-    sparksNumber: 5, // 火花数量
-    sparksSpeed: [40, 18], //火花速度
+    sparksNumber: 1, // 火花数量
+    sparksSpeed: [10, 18], //火花速度,
+    deathPoisonNum: 100, // 死亡剂量
   },
   level_2: {
     spriteSpeed: 120, // 精灵速度
     poisonGasDosage: 8, // 毒气剂量
     antidoteQuantity: 10, // 解药数量
     antidoteDosage: 10, // 解药剂量
-    sparksNumber: 8, // 火花数量
+    sparksNumber: 1, // 火花数量
+    deathPoisonNum: 100,
     sparksSpeed: [110, 130], //火花速度
   },
   level_3: {
@@ -20,7 +22,8 @@ export const PARAMETERS = {
     poisonGasDosage: 15, // 毒气剂量
     antidoteQuantity: 20, // 解药数量
     antidoteDosage: 10, // 解药剂量
-    sparksNumber: 15, // 火花数量
+    sparksNumber: 1, // 火花数量
+    deathPoisonNum: 100,
     sparksSpeed: [180, 200], //火花速度
   },
 };

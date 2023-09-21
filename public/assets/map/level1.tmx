@@ -22,7 +22,7 @@
    </properties>
   </tile>
  </tileset>
- <layer id="1" name="bg" width="30" height="20" visible="0">
+ <layer id="1" name="bg" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -87,7 +87,7 @@
    <point/>
   </object>
  </objectgroup>
- <layer id="4" name="antidote" width="30" height="20" visible="0">
+ <layer id="4" name="antidote" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

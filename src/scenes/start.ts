@@ -1,6 +1,9 @@
 import { Scene } from "phaser";
 import { switchLevel } from "../classes/utils";
+// import RexUIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
+
 export class StartScene extends Scene {
+  // rexUI!: RexUIPlugin;
   constructor() {
     super("start-scene");
   }
@@ -23,10 +26,17 @@ export class StartScene extends Scene {
       "spriteSheet/spritesheet_atlas.json"
     );
     // 初始化地图
+
     this.load.image("mapSprite", "map/sprite.png");
-    this.load.tilemapTiledJSON("map1", "map/level1.json");
-    this.load.tilemapTiledJSON("map2", "map/level2.json");
-    this.load.tilemapTiledJSON("map3", "map/level3.json");
+    if (!this.game.device.os.desktop) {
+      this.load.tilemapTiledJSON("map1", "map/m-level1.json");
+      this.load.tilemapTiledJSON("map2", "map/m-level2.json");
+      this.load.tilemapTiledJSON("map3", "map/m-level3.json");
+    } else {
+      this.load.tilemapTiledJSON("map1", "map/level1.json");
+      this.load.tilemapTiledJSON("map2", "map/level2.json");
+      this.load.tilemapTiledJSON("map3", "map/level3.json");
+    }
 
     this.load.audio("bgMusic", "sound/Wind.mp3");
     this.load.audio("ding", "sound/ding.mp3");
@@ -59,6 +69,7 @@ export class StartScene extends Scene {
   create(): void {
     const width = this.scale.width as number;
     const height = this.scale.height as number;
+
     this.add
       .tileSprite(0, 0, width, height, "grass")
       .setAlpha(0.2)

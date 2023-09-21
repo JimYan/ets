@@ -25,6 +25,7 @@ export class Dude extends Actor {
     super(scene, x, y, "sprite", "dude-5");
 
     this.params = PARAMETERS[`level_${level}`];
+    this.deathPoisonNum = this.params.deathPoisonNum;
 
     this.setBounce(1, 1).setScale(0.8);
 
@@ -34,12 +35,53 @@ export class Dude extends Actor {
     const keyboard = this.scene.input.keyboard;
     this.cursors = keyboard!.createCursorKeys();
 
+    const self = this;
+    // const txt = this.scene.add
+    //   .text(0, 0, "请允许设备方向传感器")
+    //   .setScale(2)
+    //   .setInteractive();
+    // this.scene.input.on("pointerdown", () => {
+    //   console.log("x");
+    // });
+    // console.log(typeof DeviceOrientationEvent);
     if (!this.scene.game.device.os.desktop) {
-      window.addEventListener(
-        "deviceorientation",
-        this.handleOrientation.bind(this),
-        true
-      );
+      if (
+        this.scene.game.device.os.iOS &&
+        typeof DeviceOrientationEvent !== undefined
+        // DeviceOrientationEvent !== undefined &&
+        // typeof (DeviceOrientationEvent as any).requestPermission === "function"
+      ) {
+        // console.log(
+        //   "type",
+        //   typeof (DeviceOrientationEvent as any).requestPermission
+        // );
+        this.scene.input.on("pointerup", () => {
+          // console.log("x2");
+          (DeviceOrientationEvent as any)
+            .requestPermission()
+            .then((response: any) => {
+              // console.log(response);
+              // (optional) Do something after API prompt dismissed.
+              if (response == "granted") {
+                // console.log("y");
+                window.addEventListener(
+                  "deviceorientation",
+                  self.handleOrientation.bind(self),
+                  true
+                );
+              }
+            })
+            .catch((e: any) => {
+              console.error(e);
+            });
+        });
+      } else {
+        window.addEventListener(
+          "deviceorientation",
+          this.handleOrientation.bind(this),
+          true
+        );
+      }
     }
   }
 

@@ -12,9 +12,9 @@
                 3
             ],
             "scale": 0.67,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 546.2686567164178,
+                "x": 525.3731343283582,
                 "y": 321.64179104477614
             }
         },
@@ -45,6 +45,39 @@
         },
         "level3.tmx#sprite": {
             "scaleInDock": 1
+        },
+        "m-level1.tmx": {
+            "scale": 0.76,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 434.8684210526316,
+                "y": 278.2894736842105
+            }
+        },
+        "m-level1.tmx#sprite": {
+            "scaleInDock": 1
+        },
+        "m-level2.tmx": {
+            "scale": 0.7293229166666666,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 320.159965721631,
+                "y": 480.582732271656
+            }
+        },
+        "m-level2.tmx#sprite": {
+            "scaleInDock": 1
+        },
+        "m-level3.tmx": {
+            "scale": 0.7293229166666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.159965721631,
+                "y": 480.582732271656
+            }
+        },
+        "m-level3.tmx#sprite": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "/Users/jimyan/my/project/game/ets/phaser3-template-main/public/assets/map",
@@ -56,6 +89,7 @@
     "project": "level1.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "m-level1.tmx",
         "level2.tmx"
     ],
     "tileset.embedInMap": true

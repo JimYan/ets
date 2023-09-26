@@ -1,9 +1,10 @@
 import * as Phaser from "phaser";
 import { Dude } from "./dude";
 import { createPoisonAnims } from "../anims/anims";
+import { GameScene } from "../scenes/gameMain";
 // 实现毒气喷发特效
 export const createPoisonAnimiTimer = (
-  scene: Phaser.Scene,
+  scene: GameScene,
   pointerLayer: Phaser.Tilemaps.ObjectLayer
 ) => {
   return scene.time.addEvent({
@@ -12,21 +13,19 @@ export const createPoisonAnimiTimer = (
     callback: () => {
       pointerLayer.objects.map((obj) => {
         if (obj.name === "grass") {
+          const x = (obj.x as number) * scene.scaleX;
+          const y = (obj.y as number) * scene.scaleY;
           const img = scene.add
-            .sprite(obj.x as number, obj.y as number, "sprite", "co2")
+            .sprite(x, y, "sprite", "co2")
             .setAlpha(0.5)
             .setScale(0.7, 0.7);
           const img2 = scene.add
-            .sprite(obj.x as number, obj.y as number, "sprite", "co2")
+            .sprite(x, y as number, "sprite", "co2")
             .setAlpha(0.5)
             .setScale(0.7, 0.7);
 
-          scene.tweens.add(
-            createPoisonAnims(img, obj.x as number, obj.y as number)
-          );
-          scene.tweens.add(
-            createPoisonAnims(img2, obj.x as number, obj.y as number, false)
-          );
+          scene.tweens.add(createPoisonAnims(img, x, y));
+          scene.tweens.add(createPoisonAnims(img2, x, y, false));
         }
       });
     },

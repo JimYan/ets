@@ -15,6 +15,7 @@ export class GameScene extends Scene {
   fires!: Phaser.Physics.Arcade.Group;
   antidotes!: Phaser.Physics.Arcade.Group;
   dude!: Dude;
+  map!: Phaser.Tilemaps.Tilemap;
   private params!: typeof PARAMETERS.level_1;
   level: tLevel = 1;
   bgLayer!: Phaser.Tilemaps.TilemapLayer;
@@ -23,6 +24,8 @@ export class GameScene extends Scene {
   pointerLayer!: Phaser.Tilemaps.ObjectLayer;
   posionTimer!: Phaser.Time.TimerEvent;
   _status: gameStatus = gameStatus.start; // 游戏状态
+  scaleX: number = 1;
+  scaleY: number = 1;
   constructor() {
     super("game-scene");
   }
@@ -66,12 +69,16 @@ export class GameScene extends Scene {
    */
   private initMap(level: tLevel) {
     const width = this.game.scale.width;
+    const height = this.game.scale.height;
     const map = this.make.tilemap({
       key: `map${level}`,
-      tileWidth: 32,
-      tileHeight: 32,
+      // tileWidth: 32,
+      // tileHeight: 32,
+      // width: 30,
+      // height: 20,
     }); // 加载地图
-
+    this.map = map;
+    // map.tileToWorldXY()
     const mapSprite = map.addTilesetImage(
       "sprite",
       "mapSprite"
@@ -83,7 +90,14 @@ export class GameScene extends Scene {
       0,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建背景图层
-    // this.bgLayer.setOrigin(0.5, 0.5);
+
+    this.scaleX = this.game.scale.width / this.bgLayer.width;
+    // this.scaleY = this.game.scale.height / this.bgLayer.height;
+    this.scaleY = this.scaleX;
+    // const scaleX = 1;
+    // const scaleY = 1;
+
+    this.bgLayer.setScale(this.scaleX, this.scaleY);
 
     this.wallLayer = map.createLayer(
       "wall",
@@ -92,6 +106,7 @@ export class GameScene extends Scene {
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建墙体图层
     this.wallLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
+    this.wallLayer.setScale(this.scaleX, this.scaleY);
 
     this.antidoteLayer = map.createLayer(
       "antidote",
@@ -99,11 +114,14 @@ export class GameScene extends Scene {
       0,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建解药图层
+    this.antidoteLayer.setScale(this.scaleX, this.scaleY);
     this.antidoteLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
 
     this.pointerLayer = map.getObjectLayer(
       "pointer"
     ) as Phaser.Tilemaps.ObjectLayer; // 获取地图中的标记对象图层。
+    // console.log(scaleX, scaleY);
+    // this.pointerLayer
   }
 
   /**
@@ -114,12 +132,17 @@ export class GameScene extends Scene {
     const spritePointer = this.pointerLayer.objects.filter(
       (obj) => obj.name === "sprite"
     )[0];
+    // console.log(this.map);
+    // console.log(this.pointerLayer);
     this.dude = new Dude(
       this,
-      spritePointer.x as number,
-      spritePointer.y as number,
+      (spritePointer.x as number) * this.scaleX,
+      (spritePointer.y as number) * this.scaleY,
       this.level
     );
+    this.dude.setScale(this.scaleX, this.scaleY);
+
+    // this.cameras.main.startFollow(this.dude, true, 0.5, 0.5);
   }
 
   private initAntidote() {
@@ -134,6 +157,9 @@ export class GameScene extends Scene {
       bounceX: 1,
       bounceY: 1,
 
+      "setScale.x": this.scaleX,
+      "setScale.y": this.scaleY,
+
       setXY: { x: -100, y: -100 }, // 设置初始x和y坐标, 并且设置每一个间隔的X
     });
 
@@ -142,8 +168,11 @@ export class GameScene extends Scene {
     this.antidotes.children.iterate((obj: any, i: number) => {
       // console.log(i);
       // console.log(obj);
-      (obj as Phaser.Physics.Arcade.Sprite).x = points[i].x as number;
-      (obj as Phaser.Physics.Arcade.Sprite).y = points[i].y as number;
+      (obj as Phaser.Physics.Arcade.Sprite).x =
+        (points[i].x as number) * this.scaleX;
+      (obj as Phaser.Physics.Arcade.Sprite).y =
+        (points[i].y as number) * this.scaleY;
+      obj.setScale(self.scaleX, self.scaleY);
       return null;
     });
   }
@@ -214,14 +243,17 @@ export class GameScene extends Scene {
     const firePointer = this.pointerLayer.objects.filter(
       (obj) => obj.name === "fire"
     )[0];
-    const [x, y] = [firePointer.x as number, firePointer.y as number];
+    const [x, y] = [
+      (firePointer.x as number) * this.scaleX,
+      (firePointer.y as number) * this.scaleY,
+    ];
     this.fires = this.physics.add.group({
       key: "sprite",
       repeat: this.params.sparksNumber,
       frame: ["fire-2"],
       setScale: {
-        x: 0.05,
-        y: 0.05,
+        x: 0.05 * this.scaleX,
+        y: 0.05 * this.scaleY,
       },
 
       collideWorldBounds: true,
@@ -231,6 +263,7 @@ export class GameScene extends Scene {
       setXY: { x, y }, // 设置初始x和y坐标, 并且设置每一个间隔的X
     });
     this.fires.playAnimation("fire"); // 播放火苗动画
+    const self = this;
     this.fires.children.iterate((child: any, index: number): any => {
       //  Give each star a slightly different bounce
       const speed = Phaser.Math.FloatBetween(
@@ -246,6 +279,8 @@ export class GameScene extends Scene {
   }
 
   update(): void {
+    // this.cameras.main.scrollX += 10;
+
     this.dude.update();
   }
 

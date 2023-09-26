@@ -68,8 +68,9 @@ $ pnpm build
 ## Feature
 
 - [x] 游戏音效
-- [ ] 移动端支持
-- [ ] 地图位置优化
+- [x] 移动端用支持
+- [x] 移动端地图优化
+- [x] 地图位置优化
 - [x] 使用 github actions 发布到 github pages
 
 ## 第三方资源声明

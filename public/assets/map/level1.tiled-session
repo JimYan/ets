@@ -12,9 +12,9 @@
                 3
             ],
             "scale": 0.67,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 525.3731343283582,
+                "x": 514.1791044776119,
                 "y": 321.64179104477614
             }
         },
@@ -25,21 +25,24 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 0.7303125,
-            "selectedLayer": 1,
+            "scale": 0.73,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 518.9559264013692,
-                "y": 323.8339751818571
+                "x": 489.7260273972602,
+                "y": 323.972602739726
             }
         },
         "level2.tmx#sprite": {
             "scaleInDock": 1
         },
         "level3.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 0.7303125,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 518.9559264013692,
+                "x": 489.51647411210956,
                 "y": 321.0954214805306
             }
         },
@@ -47,10 +50,13 @@
             "scaleInDock": 1
         },
         "m-level1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 0.76,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 434.8684210526316,
+                "x": 371.71052631578954,
                 "y": 278.2894736842105
             }
         },
@@ -59,9 +65,9 @@
         },
         "m-level2.tmx": {
             "scale": 0.7293229166666666,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 320.159965721631,
+                "x": 254.3454973934157,
                 "y": 480.582732271656
             }
         },
@@ -87,7 +93,7 @@
     "openFiles": [
     ],
     "project": "level1.tiled-project",
-    "property.type": "string",
+    "property.type": "bool",
     "recentFiles": [
         "m-level1.tmx",
         "level2.tmx"

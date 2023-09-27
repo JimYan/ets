@@ -21,6 +21,7 @@ export class GameScene extends Scene {
   bgLayer!: Phaser.Tilemaps.TilemapLayer;
   wallLayer!: Phaser.Tilemaps.TilemapLayer;
   antidoteLayer!: Phaser.Tilemaps.TilemapLayer;
+  exitLayer!: Phaser.Tilemaps.TilemapLayer;
   pointerLayer!: Phaser.Tilemaps.ObjectLayer;
   posionTimer!: Phaser.Time.TimerEvent;
   _status: gameStatus = gameStatus.start; // 游戏状态
@@ -57,6 +58,7 @@ export class GameScene extends Scene {
     this.physics.world.setBounds(0, 0, width, height); // 设置世界边沿区域
     this.physics.add.collider(this.dude, this.wallLayer); // 设置精灵和墙体的碰撞
     this.physics.add.collider(this.fires, this.wallLayer); // 设置火苗和墙体的碰撞
+    this.physics.add.collider(this.fires, this.exitLayer); // 设置火苗和出口的碰撞
 
     this.initDudePhysic(); // 初始化精灵的物理逻辑
     this.initPosion(); // 初始化毒气逻辑
@@ -91,12 +93,29 @@ export class GameScene extends Scene {
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建背景图层
 
-    this.scaleX = this.game.scale.width / this.bgLayer.width;
-    // this.scaleY = this.game.scale.height / this.bgLayer.height;
-    this.scaleY = this.scaleX;
-    // const scaleX = 1;
-    // const scaleY = 1;
+    if (width < this.bgLayer.width) {
+      this.scaleX = width / this.bgLayer.width;
+      this.scaleY = this.scaleX;
+      console.log(this.scaleX);
+      if (height < this.bgLayer.height * this.scaleY) {
+        this.scaleY =
+          (height / (this.bgLayer.height * this.scaleX)) * this.scaleX;
+        console.log(this.scaleY);
+        this.scaleX = this.scaleY;
+      }
+    } else if (height < this.bgLayer.height) {
+      this.scaleX = height / this.bgLayer.height;
+      this.scaleY = this.scaleX;
 
+      if (width < this.bgLayer.width * this.scaleX) {
+        this.scaleX =
+          (width / (this.bgLayer.width * this.scaleX)) * this.scaleX;
+        this.scaleY = this.scaleX;
+      }
+    } else {
+      this.scaleX = 1;
+      this.scaleY = 1;
+    }
     this.bgLayer.setScale(this.scaleX, this.scaleY);
 
     this.wallLayer = map.createLayer(
@@ -107,6 +126,15 @@ export class GameScene extends Scene {
     ) as Phaser.Tilemaps.TilemapLayer; // 创建墙体图层
     this.wallLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
     this.wallLayer.setScale(this.scaleX, this.scaleY);
+
+    this.exitLayer = map.createLayer(
+      "exit",
+      mapSprite,
+      0,
+      0
+    ) as Phaser.Tilemaps.TilemapLayer; // 创建墙体图层
+    this.exitLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
+    this.exitLayer.setScale(this.scaleX, this.scaleY);
 
     this.antidoteLayer = map.createLayer(
       "antidote",
@@ -216,8 +244,8 @@ export class GameScene extends Scene {
     const self = this;
     createPoisonAnimiTimer(this, this.pointerLayer); // 创建毒药的动画
     this.posionTimer = ceateDudePosionTimer(this.dude); // 设置每秒给精灵增加毒药剂量
-    this.physics.add.overlap(this.dude, this.wallLayer, (a: any, b: any) => {
-      const tile = self.wallLayer.getTileAtWorldXY(a.x, a.y);
+    this.physics.add.overlap(this.dude, this.exitLayer, (a: any, b: any) => {
+      const tile = self.exitLayer.getTileAtWorldXY(a.x, a.y);
       if (tile && tile.properties?.name == "exit") {
         self.posionTimer.destroy(); // 定时器关闭
         self.dude.status = dudeStatus.victory;

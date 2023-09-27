@@ -18,11 +18,11 @@ export const createPoisonAnimiTimer = (
           const img = scene.add
             .sprite(x, y, "sprite", "co2")
             .setAlpha(0.5)
-            .setScale(0.7, 0.7);
+            .setScale(scene.scaleX * 0.7, scene.scaleY * 0.7);
           const img2 = scene.add
             .sprite(x, y as number, "sprite", "co2")
             .setAlpha(0.5)
-            .setScale(0.7, 0.7);
+            .setScale(scene.scaleX * 0.7, scene.scaleY * 0.7);
 
           scene.tweens.add(createPoisonAnims(img, x, y));
           scene.tweens.add(createPoisonAnims(img2, x, y, false));

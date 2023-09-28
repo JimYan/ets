@@ -1,11 +1,17 @@
 import { Scene, Sound } from "phaser";
 
 import { Text } from "../classes/text";
-import { EVENTS_NAME, dudeStatus } from "../config/constant";
+import {
+  EVENTS_NAME,
+  dudeStatus,
+  gameStatus,
+  tLevel,
+} from "../config/constant";
 
 export class GameUiScene extends Scene {
   private posionText!: Text;
   private tipsText!: Text;
+  private props!: { level: tLevel };
 
   constructor() {
     super("ui-scene");
@@ -18,11 +24,7 @@ export class GameUiScene extends Scene {
       .tileSprite(0, 0, width, height, "grass")
       .setAlpha(0.2)
       .setOrigin(0, 0);
-    this.tipsText = new Text(this, width / 2 - 50, 10, `第${props.level}关`);
-    this.add.existing(this.tipsText);
-
-    this.posionText = new Text(this, width / 2 + 50, 10, "毒气:0");
-    this.add.existing(this.posionText);
+    this.props = props;
     this.initListeners();
   }
 
@@ -50,6 +52,23 @@ export class GameUiScene extends Scene {
     }
   }
 
+  private gameStatusChange(s: gameStatus) {
+    const width = this.scale.width as number;
+    const height = this.scale.height as number;
+    if (s === gameStatus.start) {
+      this.tipsText = new Text(
+        this,
+        width / 2 - 50,
+        10,
+        `第${this.props.level}关`
+      );
+      this.add.existing(this.tipsText);
+
+      this.posionText = new Text(this, width / 2 + 50, 10, "毒气:0");
+      this.add.existing(this.posionText);
+    }
+  }
+
   private initListeners(): void {
     this.game.events.on(
       EVENTS_NAME.dudePosionChange,
@@ -59,6 +78,11 @@ export class GameUiScene extends Scene {
     this.game.events.on(
       EVENTS_NAME.dudeStatusChange,
       this.dudeStatusChange,
+      this
+    );
+    this.game.events.on(
+      EVENTS_NAME.gameStatusChange,
+      this.gameStatusChange,
       this
     );
   }

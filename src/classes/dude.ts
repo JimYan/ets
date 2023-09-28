@@ -19,8 +19,8 @@ export class Dude extends Actor {
   private antidoteNumber = 0; //解药剂量
   private deathPoisonNum = 30;
   private _status = dudeStatus.start;
-  private _directionX: tOrigin = "turn";
-  private _directionY: tOrigin = "turn";
+  // private _directionX: tOrigin = "turn";
+  // private _directionY: tOrigin = "turn";
   constructor(scene: GameScene, x: number, y: number, level: 1 | 2 | 3) {
     super(scene, x, y, "sprite", "dude-5");
 
@@ -34,104 +34,22 @@ export class Dude extends Actor {
 
     const keyboard = this.scene.input.keyboard;
     this.cursors = keyboard!.createCursorKeys();
-
-    const self = this;
-    // const txt = this.scene.add
-    //   .text(0, 0, "请允许设备方向传感器")
-    //   .setScale(2)
-    //   .setInteractive();
-    // this.scene.input.on("pointerdown", () => {
-    //   console.log("x");
-    // });
-    // console.log(typeof DeviceOrientationEvent);
-    if (!this.scene.game.device.os.desktop) {
-      if (
-        this.scene.game.device.os.iOS &&
-        typeof DeviceOrientationEvent !== undefined
-        // DeviceOrientationEvent !== undefined &&
-        // typeof (DeviceOrientationEvent as any).requestPermission === "function"
-      ) {
-        // console.log(
-        //   "type",
-        //   typeof (DeviceOrientationEvent as any).requestPermission
-        // );
-        this.scene.input.on("pointerup", () => {
-          // console.log("x2");
-          (DeviceOrientationEvent as any)
-            .requestPermission()
-            .then((response: any) => {
-              // console.log(response);
-              // (optional) Do something after API prompt dismissed.
-              if (response == "granted") {
-                // console.log("y");
-                window.addEventListener(
-                  "deviceorientation",
-                  self.handleOrientation.bind(self),
-                  true
-                );
-              }
-            })
-            .catch((e: any) => {
-              console.error(e);
-            });
-        });
-      } else {
-        window.addEventListener(
-          "deviceorientation",
-          this.handleOrientation.bind(this),
-          true
-        );
-      }
-    }
-  }
-
-  private handleOrientation(event: DeviceOrientationEvent): void {
-    // console.log("x");
-    var alpha = event.alpha as number; // 设备绕z轴的旋转角度
-    var beta = event.beta as number; // 设备绕x轴的旋转角度
-    var gamma = event.gamma as number; // 设备绕y轴的旋转角度
-
-    console.log(gamma);
-    const diffX = 10;
-    const diffY = 5;
-
-    if ((gamma as number) > diffX) {
-      this._directionX = "right";
-      console.log("right");
-    } else if (gamma < -diffX) {
-      console.log("left");
-      this._directionX = "left";
-    }
-    // else {
-    //   // 手机水平
-    //   console.log("手机水平");
-    //   this._directionX = "turn";
-    // }
-    else if (beta > diffY) {
-      this._directionX = "down";
-    } else if (beta < -diffY) {
-      this._directionX = "up";
-    } else {
-      this._directionX = "turn";
-    }
-
-    console.log(this._directionX);
-
-    // 限制精灵在屏幕内移动
-
-    // this.sprite.x = newX;
   }
 
   update(): void {
+    if (this.scene === undefined) {
+      return;
+    }
     // console.log("x");
-    if ((this.scene as GameScene).status !== gameStatus.start) {
+    const scene = this.scene as GameScene;
+    if ((scene as GameScene).status !== gameStatus.start) {
       return;
     }
     const body = this.getBody();
     const speed = this.params.spriteSpeed;
 
-    if (!this.scene.game.device.os.desktop) {
-      this.updateDude(this._directionX);
+    if (!scene.game.device.os.desktop) {
+      this.updateDude(scene.getDirectionX());
       // this.updateDude(this._directionY);
       return;
     }

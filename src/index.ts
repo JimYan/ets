@@ -1,6 +1,9 @@
 import { Game, Scale, Types, WEBGL, AUTO } from "phaser";
 import * as Phaser from "phaser";
 import SoundFadePlugin from "phaser3-rex-plugins/plugins/soundfade-plugin.js";
+import VConsole from "vconsole";
+// import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
+
 // import "phaser/plugins/spine/dist/SpinePlugin";
 // import * as spine from "@esotericsoftware/spine-phaser";
 
@@ -22,6 +25,9 @@ export const gameConfig: GameConfigExtended = {
   type: AUTO,
   parent: "app",
   backgroundColor: "#9bd4c3",
+  input: {
+    windowEvents: true,
+  },
   plugins: {
     global: [
       {
@@ -29,6 +35,7 @@ export const gameConfig: GameConfigExtended = {
         plugin: SoundFadePlugin,
         start: true,
       },
+
       // {
       //   key: "rexDrag",
       //   plugin: DragPlugin,
@@ -37,6 +44,12 @@ export const gameConfig: GameConfigExtended = {
       // ...
     ],
     scene: [
+      // {
+      //   key: "rexUI",
+      //   plugin: UIPlugin,
+      //   // start: true,
+      //   mapping: "rexUI",
+      // },
       // { key: "spine.SpinePlugin", plugin: spine.SpinePlugin, mapping: "spine" },
     ],
   },
@@ -92,4 +105,8 @@ window.onresize = () => sizeChanged();
 //   button?.remove();
 //   window.game = new Game(gameConfig);
 // });
+if (location.href.indexOf("debug") !== -1) {
+  const vConsole = new VConsole();
+  // vConsole.open();
+}
 window.game = new Game(gameConfig);

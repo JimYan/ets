@@ -57,33 +57,35 @@ export class GameUiScene extends Scene {
   private gameStatusChange(s: gameStatus) {
     const width = this.scale.width as number;
     const height = this.scale.height as number;
+    const style = { fontSize: "calc(100vw / 20)", color: "#FFF" };
     if (s === gameStatus.start) {
       const tipsTxt = this.game.device.os.desktop
         ? "按方向键上下左右控制精灵"
         : "通过转动手机，让陀螺仪来控制精灵方向";
-      this.tips = new Text(this, width / 2, height, tipsTxt)
-        .setScale(1.5)
-        .setOrigin(0.5, 1);
+      this.tips = new Text(this, width / 2, height, tipsTxt, style).setOrigin(
+        0.5,
+        1
+      );
       this.add.existing(this.tips);
 
       this.tipsText = new Text(
         this,
         width / 2 - 50,
         height - this.tips.height - 10,
-        `第${this.props.level}关`
-      )
-        .setOrigin(0.5, 1)
-        .setScale(1.5);
+        `第${this.props.level}关`,
+        style
+      ).setOrigin(0.5, 1);
+      // .setScale(1.5);
       this.add.existing(this.tipsText);
 
       this.posionText = new Text(
         this,
         width / 2 + 50,
         height - this.tips.height - 10,
-        "毒气:0"
-      )
-        .setOrigin(0.5, 1)
-        .setScale(1.5);
+        "毒气:0",
+        style
+      ).setOrigin(0.5, 1);
+      // .setScale(1.5);
       this.add.existing(this.posionText);
     }
   }

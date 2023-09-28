@@ -49,7 +49,8 @@ export enum dudeStatus {
 
 // 游戏状态
 export enum gameStatus {
-  start, // 初始
+  load, // 游戏加载
+  start, // 开始游戏
   next, // 下一关
   fail, // 失败
   victory, // 胜利

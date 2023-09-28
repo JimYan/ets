@@ -25,7 +25,7 @@ export class AudioScene extends Scene {
     this.game.sound.setMute(true); // 暂时静音。
     // 背景音乐
     this.backmusic = this.sound.add("bgMusic", { loop: true, volume: 0.3 });
-    this.backmusic.play();
+    // this.backmusic.play();
 
     this.running = this.sound.add("running", { loop: false, volume: 0.3 });
     this.pick = this.sound.add("pick", { loop: false, volume: 0.3 });
@@ -35,11 +35,12 @@ export class AudioScene extends Scene {
 
   gameEnd(status: gameStatus): void {
     if (status === gameStatus.start) {
-      //   this.backmusic.play();
+      this.backmusic.play();
     } else if (status === gameStatus.fail) {
       this.fail.play();
       this.backmusic.stop();
     } else if (status === gameStatus.victory || status === gameStatus.next) {
+      this.backmusic.stop();
       this.win.play();
     }
   }

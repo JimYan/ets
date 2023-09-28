@@ -10,11 +10,13 @@ import { Dude } from "../classes/dude";
 import { createPoisonAnimiTimer, ceateDudePosionTimer } from "../classes/timer";
 import { Text } from "../classes/text";
 import { switchLevel } from "../classes/utils";
-
+import CountdownText from "../classes/CountdownText";
+type tOrigin = "left" | "right" | "up" | "down" | "turn";
 export class GameScene extends Scene {
   fires!: Phaser.Physics.Arcade.Group;
   antidotes!: Phaser.Physics.Arcade.Group;
   dude!: Dude;
+  props!: { level: tLevel };
   map!: Phaser.Tilemaps.Tilemap;
   private params!: typeof PARAMETERS.level_1;
   level: tLevel = 1;
@@ -24,15 +26,21 @@ export class GameScene extends Scene {
   exitLayer!: Phaser.Tilemaps.TilemapLayer;
   pointerLayer!: Phaser.Tilemaps.ObjectLayer;
   posionTimer!: Phaser.Time.TimerEvent;
-  _status: gameStatus = gameStatus.start; // 游戏状态
+  _status: gameStatus = gameStatus.load; // 游戏状态
   scaleX: number = 1;
   scaleY: number = 1;
+  private _directionX: tOrigin = "turn";
+  private _directionY: tOrigin = "turn";
   constructor() {
     super("game-scene");
   }
 
   get status() {
     return this._status;
+  }
+
+  getDirectionX() {
+    return this._directionX;
   }
 
   set status(s: gameStatus) {
@@ -47,10 +55,58 @@ export class GameScene extends Scene {
     this._status = gameStatus.start;
     this.params = PARAMETERS[`level_${props.level}`];
     this.level = props.level || 1;
+    this.props = props;
+    if (!this.game.device.os.desktop) {
+      if (
+        this.game.device.os.iOS &&
+        typeof DeviceOrientationEvent !== undefined
+      ) {
+        this.mobileStart(); // 在ios下，通过引导用户点击屏幕来启动游戏
+      } else {
+        // 安卓下，直接倒计时，然后监听事件。
+        this.startCountDown(() => {
+          window.addEventListener(
+            "deviceorientation",
+            this.handleOrientation.bind(this),
+            true
+          );
+        });
+      }
+    } else {
+      this.startCountDown();
+    }
+  }
+
+  private handleOrientation(event: DeviceOrientationEvent): void {
+    // console.log("x");
+    var alpha = event.alpha as number; // 设备绕z轴的旋转角度
+    var beta = event.beta as number; // 设备绕x轴的旋转角度
+    var gamma = event.gamma as number; // 设备绕y轴的旋转角度
+
+    console.log(gamma);
+    const diffX = 10;
+    const diffY = 5;
+
+    if ((gamma as number) > diffX) {
+      this._directionX = "right";
+      console.log("right");
+    } else if (gamma < -diffX) {
+      console.log("left");
+      this._directionX = "left";
+    } else if (beta > diffY) {
+      this._directionX = "down";
+    } else if (beta < -diffY) {
+      this._directionX = "up";
+    } else {
+      this._directionX = "turn";
+    }
+  }
+
+  private _init() {
     const width = this.game.scale.width;
     const height = this.game.scale.height;
 
-    this.initMap(props.level); // 初始化地图
+    this.initMap(this.props.level); // 初始化地图
     this.initDude(); // 初始化精灵
     this.initFire(); // 初始化火苗
     this.initAntidote(); // 初始化解药
@@ -63,6 +119,58 @@ export class GameScene extends Scene {
     this.initDudePhysic(); // 初始化精灵的物理逻辑
     this.initPosion(); // 初始化毒气逻辑
     this.initListeners(); // 初始化游戏事件
+    this.status = gameStatus.start;
+  }
+
+  private mobileStart() {
+    const width = this.game.scale.width;
+    const height = this.game.scale.height;
+    const start = this.add
+      .text(width / 2, height / 2, "点我游戏开始", {
+        fontSize: "64px",
+        color: "#fff",
+      })
+      .setInteractive()
+      .setOrigin(0.5, 0.5);
+
+    start.on("pointerup", (x: Phaser.Input.Pointer) => {
+      (DeviceOrientationEvent as any)
+        .requestPermission()
+        .then((response: any) => {
+          if (response == "granted") {
+            // this.mobileStart();
+            start.setAlpha(0);
+            this.startCountDown(() => {
+              window.addEventListener(
+                "deviceorientation",
+                this.handleOrientation.bind(this),
+                true
+              );
+              start.destroy();
+            });
+          }
+        })
+        .catch((e: any) => {
+          alert(e);
+        });
+    });
+  }
+
+  private startCountDown(cb?: () => void) {
+    const width = this.game.scale.width;
+    const height = this.game.scale.height;
+    const self = this;
+    const countdownText = new CountdownText(
+      this,
+      width / 2,
+      height / 2,
+      ["3", "2", "1", "Go!"],
+      () => {
+        self._init();
+        cb && cb();
+      }
+    );
+    this.add.existing(countdownText);
   }
 
   /**
@@ -96,11 +204,9 @@ export class GameScene extends Scene {
     if (width < this.bgLayer.width) {
       this.scaleX = width / this.bgLayer.width;
       this.scaleY = this.scaleX;
-      console.log(this.scaleX);
       if (height < this.bgLayer.height * this.scaleY) {
         this.scaleY =
           (height / (this.bgLayer.height * this.scaleX)) * this.scaleX;
-        console.log(this.scaleY);
         this.scaleX = this.scaleY;
       }
     } else if (height < this.bgLayer.height) {
@@ -309,7 +415,7 @@ export class GameScene extends Scene {
   update(): void {
     // this.cameras.main.scrollX += 10;
 
-    this.dude.update();
+    this.dude && this.dude.update();
   }
 
   private dudeStatusChange(s: dudeStatus) {

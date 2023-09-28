@@ -11,6 +11,7 @@ import {
 export class GameUiScene extends Scene {
   private posionText!: Text;
   private tipsText!: Text;
+  private tips!: Text;
   private props!: { level: tLevel };
 
   constructor() {
@@ -48,6 +49,7 @@ export class GameUiScene extends Scene {
       case dudeStatus.sparks:
         this.tipsText.setVisible(false);
         this.posionText.setVisible(false);
+        this.tips.setVisible(false);
         break;
     }
   }
@@ -56,15 +58,32 @@ export class GameUiScene extends Scene {
     const width = this.scale.width as number;
     const height = this.scale.height as number;
     if (s === gameStatus.start) {
+      const tipsTxt = this.game.device.os.desktop
+        ? "按方向键上下左右控制精灵"
+        : "通过转动手机，让陀螺仪来控制精灵方向";
+      this.tips = new Text(this, width / 2, height, tipsTxt)
+        .setScale(1.5)
+        .setOrigin(0.5, 1);
+      this.add.existing(this.tips);
+
       this.tipsText = new Text(
         this,
         width / 2 - 50,
-        10,
+        height - this.tips.height - 10,
         `第${this.props.level}关`
-      );
+      )
+        .setOrigin(0.5, 1)
+        .setScale(1.5);
       this.add.existing(this.tipsText);
 
-      this.posionText = new Text(this, width / 2 + 50, 10, "毒气:0");
+      this.posionText = new Text(
+        this,
+        width / 2 + 50,
+        height - this.tips.height - 10,
+        "毒气:0"
+      )
+        .setOrigin(0.5, 1)
+        .setScale(1.5);
       this.add.existing(this.posionText);
     }
   }

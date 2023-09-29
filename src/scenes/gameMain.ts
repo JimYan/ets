@@ -9,7 +9,7 @@ import {
 import { Dude } from "../classes/dude";
 import { createPoisonAnimiTimer, ceateDudePosionTimer } from "../classes/timer";
 import { Text } from "../classes/text";
-import { switchLevel } from "../classes/utils";
+import { getObjXY, switchLevel } from "../classes/utils";
 import CountdownText from "../classes/CountdownText";
 type tOrigin = "left" | "right" | "up" | "down" | "turn";
 export class GameScene extends Scene {
@@ -187,6 +187,7 @@ export class GameScene extends Scene {
       // width: 30,
       // height: 20,
     }); // 加载地图
+    // map.setP
     this.map = map;
     // map.tileToWorldXY()
     const mapSprite = map.addTilesetImage(
@@ -194,14 +195,17 @@ export class GameScene extends Scene {
       "mapSprite"
     ) as Phaser.Tilemaps.Tileset; // 加载地图的图集
 
+    let x = 0;
+    let y = 0;
     this.bgLayer = map.createLayer(
       "bg",
       mapSprite,
-      0,
-      0
+      x,
+      y
     ) as Phaser.Tilemaps.TilemapLayer; // 创建背景图层
-
-    if (width < this.bgLayer.width) {
+    const isDesktop = this.game.device.os.desktop;
+    // 如果是非手机，那么做到宽度自适应.
+    if (isDesktop && width < this.bgLayer.width) {
       this.scaleX = width / this.bgLayer.width;
       this.scaleY = this.scaleX;
       if (height < this.bgLayer.height * this.scaleY) {
@@ -209,25 +213,39 @@ export class GameScene extends Scene {
           (height / (this.bgLayer.height * this.scaleX)) * this.scaleX;
         this.scaleX = this.scaleY;
       }
-    } else if (height < this.bgLayer.height) {
-      this.scaleX = height / this.bgLayer.height;
-      this.scaleY = this.scaleX;
+    }
+    // else if (height < this.bgLayer.height) {
+    //   this.scaleX = height / this.bgLayer.height;
+    //   this.scaleY = this.scaleX;
 
-      if (width < this.bgLayer.width * this.scaleX) {
-        this.scaleX =
-          (width / (this.bgLayer.width * this.scaleX)) * this.scaleX;
-        this.scaleY = this.scaleX;
-      }
-    } else {
+    //   if (width < this.bgLayer.width * this.scaleX) {
+    //     this.scaleX =
+    //       (width / (this.bgLayer.width * this.scaleX)) * this.scaleX;
+    //     this.scaleY = this.scaleX;
+    //   }
+    // }
+    else {
       this.scaleX = 1;
       this.scaleY = 1;
     }
+
+    // this.scaleX = 1;
+    // this.scaleY = 1;
     this.bgLayer.setScale(this.scaleX, this.scaleY);
+
+    if (this.game.device.os.desktop || true) {
+      x = width / 2 - (this.bgLayer.width * this.scaleX) / 2;
+      if (x < 0) {
+        x = 0;
+      }
+      console.log(x, width, this.bgLayer);
+      this.bgLayer.setX(x);
+    }
 
     this.wallLayer = map.createLayer(
       "wall",
       mapSprite,
-      0,
+      x,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建墙体图层
     this.wallLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
@@ -236,7 +254,7 @@ export class GameScene extends Scene {
     this.exitLayer = map.createLayer(
       "exit",
       mapSprite,
-      0,
+      x,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建墙体图层
     this.exitLayer.setCollisionByProperty({ collides: true }); // 设置墙的碰撞属性
@@ -245,7 +263,7 @@ export class GameScene extends Scene {
     this.antidoteLayer = map.createLayer(
       "antidote",
       mapSprite,
-      0,
+      x,
       0
     ) as Phaser.Tilemaps.TilemapLayer; // 创建解药图层
     this.antidoteLayer.setScale(this.scaleX, this.scaleY);
@@ -254,6 +272,7 @@ export class GameScene extends Scene {
     this.pointerLayer = map.getObjectLayer(
       "pointer"
     ) as Phaser.Tilemaps.ObjectLayer; // 获取地图中的标记对象图层。
+
     // console.log(scaleX, scaleY);
     // this.pointerLayer
   }
@@ -268,12 +287,9 @@ export class GameScene extends Scene {
     )[0];
     // console.log(this.map);
     // console.log(this.pointerLayer);
-    this.dude = new Dude(
-      this,
-      (spritePointer.x as number) * this.scaleX,
-      (spritePointer.y as number) * this.scaleY,
-      this.level
-    );
+
+    const [x, y] = getObjXY(spritePointer, this.map, this.scaleX);
+    this.dude = new Dude(this, x, y, this.level);
     this.dude.setScale(this.scaleX, this.scaleY);
 
     // this.cameras.main.startFollow(this.dude, true, 0.5, 0.5);
@@ -302,10 +318,9 @@ export class GameScene extends Scene {
     this.antidotes.children.iterate((obj: any, i: number) => {
       // console.log(i);
       // console.log(obj);
-      (obj as Phaser.Physics.Arcade.Sprite).x =
-        (points[i].x as number) * this.scaleX;
-      (obj as Phaser.Physics.Arcade.Sprite).y =
-        (points[i].y as number) * this.scaleY;
+      const [x, y] = getObjXY(points[i], this.map, this.scaleX);
+      (obj as Phaser.Physics.Arcade.Sprite).x = x;
+      (obj as Phaser.Physics.Arcade.Sprite).y = y;
       obj.setScale(self.scaleX, self.scaleY);
       return null;
     });
@@ -316,19 +331,6 @@ export class GameScene extends Scene {
    */
   private initDudePhysic() {
     const self = this;
-    // 精灵和解药触碰，精灵体内解药相加
-    // this.physics.add.overlap(
-    //   this.dude,
-    //   this.antidoteLayer,
-    //   (a: any, b: any) => {
-    //     const tile = self.antidoteLayer.getTileAtWorldXY(a.x, a.y);
-    //     if (tile) {
-    //       // console.log(tile);
-    //       self.antidoteLayer.removeTileAtWorldXY(a.x, a.y);
-    //       self.dude.addAntidote();
-    //     }
-    //   }
-    // );
 
     // 精灵和解药的触碰
     this.physics.add.overlap(this.dude, this.antidotes, (a, b) => {
@@ -348,7 +350,7 @@ export class GameScene extends Scene {
    */
   private initPosion() {
     const self = this;
-    createPoisonAnimiTimer(this, this.pointerLayer); // 创建毒药的动画
+    createPoisonAnimiTimer(this, this.pointerLayer, this.map); // 创建毒药的动画
     this.posionTimer = ceateDudePosionTimer(this.dude); // 设置每秒给精灵增加毒药剂量
     this.physics.add.overlap(this.dude, this.exitLayer, (a: any, b: any) => {
       const tile = self.exitLayer.getTileAtWorldXY(a.x, a.y);
@@ -377,10 +379,7 @@ export class GameScene extends Scene {
     const firePointer = this.pointerLayer.objects.filter(
       (obj) => obj.name === "fire"
     )[0];
-    const [x, y] = [
-      (firePointer.x as number) * this.scaleX,
-      (firePointer.y as number) * this.scaleY,
-    ];
+    const [x, y] = getObjXY(firePointer, this.map, this.scaleX);
     this.fires = this.physics.add.group({
       key: "sprite",
       repeat: this.params.sparksNumber,

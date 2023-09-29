@@ -13,7 +13,7 @@ export default class CountdownText extends Phaser.GameObjects.Text {
   ) {
     super(scene, x, y, "1", { fontSize: "64px", color: "#fff" });
     this.scene = scene;
-    this.setOrigin(0.5);
+    this.setOrigin(0.5, 0.5);
 
     if (texts) {
       this.texts = texts;

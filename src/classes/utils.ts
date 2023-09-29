@@ -38,3 +38,13 @@ export const switchLevel = (scene: Phaser.Scene, level: tLevel) => {
   // );
   // scene.add.existing(countdownText);
 };
+
+export const getObjXY = (
+  obj: Phaser.Types.Tilemaps.TiledObject,
+  map: Phaser.Tilemaps.Tilemap,
+  scale = 1
+): [number, number] => {
+  const dx = map.tileToWorldX(0) as number;
+  const dy = map.tileToWorldY(0) as number;
+  return [(obj.x as number) * scale + dx, (obj.y as number) * scale + dy];
+};

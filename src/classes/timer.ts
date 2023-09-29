@@ -1,20 +1,30 @@
 import * as Phaser from "phaser";
+import { Math } from "phaser";
 import { Dude } from "./dude";
 import { createPoisonAnims } from "../anims/anims";
 import { GameScene } from "../scenes/gameMain";
+import { getObjXY } from "./utils";
+
 // 实现毒气喷发特效
+
 export const createPoisonAnimiTimer = (
   scene: GameScene,
-  pointerLayer: Phaser.Tilemaps.ObjectLayer
+  pointerLayer: Phaser.Tilemaps.ObjectLayer,
+  map: Phaser.Tilemaps.Tilemap
 ) => {
   return scene.time.addEvent({
     delay: 2000, // 延迟1秒执行
     repeat: -1, // 重复3次，总共3秒倒计时
     callback: () => {
       pointerLayer.objects.map((obj) => {
+        const dx = map.tileToWorldX(0) as number;
+        const dy = map.tileToWorldY(0) as number;
         if (obj.name === "grass") {
-          const x = (obj.x as number) * scene.scaleX;
-          const y = (obj.y as number) * scene.scaleY;
+          // console.log(map.tileToWorldX(getTile(obj.x as number)));
+          const [x, y] = getObjXY(obj, map);
+          // const y = (obj.y as number) * scene.scaleY + dy;
+          // const x = map.tileToWorldX(getTile(obj.x as number)) as number;
+          // const y = map.tileToWorldY(getTile(obj.y as number)) as number;
           const img = scene.add
             .sprite(x, y, "sprite", "co2")
             .setAlpha(0.5)

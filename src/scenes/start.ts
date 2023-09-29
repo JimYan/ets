@@ -35,7 +35,7 @@ export class StartScene extends Scene {
     } else {
       this.load.tilemapTiledJSON("map1", "map/d-level1.json");
       this.load.tilemapTiledJSON("map2", "map/d-level2.json");
-      this.load.tilemapTiledJSON("map3", "map/level3.json");
+      this.load.tilemapTiledJSON("map3", "map/d-level3.json");
     }
 
     this.load.audio("bgMusic", "sound/Wind.mp3");

@@ -33,8 +33,8 @@ export class StartScene extends Scene {
       this.load.tilemapTiledJSON("map2", "map/m-level2.json");
       this.load.tilemapTiledJSON("map3", "map/m-level3.json");
     } else {
-      this.load.tilemapTiledJSON("map1", "map/level1.json");
-      this.load.tilemapTiledJSON("map2", "map/level2.json");
+      this.load.tilemapTiledJSON("map1", "map/d-level1.json");
+      this.load.tilemapTiledJSON("map2", "map/d-level2.json");
       this.load.tilemapTiledJSON("map3", "map/level3.json");
     }
 

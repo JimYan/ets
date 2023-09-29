@@ -57,7 +57,11 @@ export class GameUiScene extends Scene {
   private gameStatusChange(s: gameStatus) {
     const width = this.scale.width as number;
     const height = this.scale.height as number;
-    const style = { fontSize: "calc(100vw / 20)", color: "#FFF" };
+    const isDesktop = this.game.device.os.desktop;
+    const style = {
+      fontSize: isDesktop ? "calc(100vw / 30)" : "calc(100vw / 20)",
+      color: "#FFF",
+    };
     if (s === gameStatus.start) {
       const tipsTxt = this.game.device.os.desktop
         ? "按方向键上下左右控制精灵"
@@ -70,22 +74,21 @@ export class GameUiScene extends Scene {
 
       this.tipsText = new Text(
         this,
-        width / 2 - 50,
+        width / 2 - 10,
         height - this.tips.height - 10,
         `第${this.props.level}关`,
         style
-      ).setOrigin(0.5, 1);
-      // .setScale(1.5);
+      ).setOrigin(1, 1);
       this.add.existing(this.tipsText);
+      this.tipsText.setX(width / 2 - 10);
 
       this.posionText = new Text(
         this,
-        width / 2 + 50,
+        width / 2 + 10,
         height - this.tips.height - 10,
         "毒气:0",
         style
-      ).setOrigin(0.5, 1);
-      // .setScale(1.5);
+      ).setOrigin(0, 1);
       this.add.existing(this.posionText);
     }
   }

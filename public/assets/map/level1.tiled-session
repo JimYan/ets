@@ -7,19 +7,61 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "d-level1.tmx": {
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 329.5,
+                "y": 285.5
+            }
+        },
+        "d-level1.tmx#sprite": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "d-level2.tmx": {
+            "scale": 1.117734375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 320.73810023065636,
+                "y": 240.21807506814844
+            }
+        },
+        "d-level2.tmx#sprite": {
+            "scaleInDock": 1
+        },
+        "d-level3.tmx": {
+            "scale": 1.117734375,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 320.73810023065636,
+                "y": 240.21807506814844
+            }
+        },
+        "d-level3.tmx#sprite": {
+            "scaleInDock": 1
+        },
         "level1.tmx": {
             "expandedObjectLayers": [
                 3
             ],
             "scale": 0.67,
-            "selectedLayer": 4,
+            "selectedLayer": 3,
             "viewCenter": {
                 "x": 514.1791044776119,
-                "y": 321.64179104477614
+                "y": 323.13432835820896
             }
         },
         "level1.tmx#sprite": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "level2.tmx": {
             "expandedObjectLayers": [
@@ -78,7 +120,7 @@
             "scale": 0.7293229166666666,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 320.159965721631,
+                "x": 254.3454973934157,
                 "y": 480.582732271656
             }
         },
@@ -88,15 +130,21 @@
     },
     "last.exportedFilePath": "/Users/jimyan/my/project/game/ets/phaser3-template-main/public/assets/map",
     "last.imagePath": "/Users/jimyan/my/project/game/ets/phaser3-template-main/public/assets/map",
+    "map.height": 15,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
+    "map.width": 20,
     "openFiles": [
     ],
     "project": "level1.tiled-project",
-    "property.type": "bool",
+    "property.type": "string",
     "recentFiles": [
+        "m-level3.tmx",
+        "m-level2.tmx",
         "m-level1.tmx",
-        "level2.tmx"
+        "level3.tmx",
+        "level2.tmx",
+        "level1.tmx"
     ],
     "tileset.embedInMap": true
 }

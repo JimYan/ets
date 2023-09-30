@@ -19,6 +19,7 @@ export class EndScene extends Scene {
   }): void {
     this.width = this.game.scale.width;
     this.height = this.game.scale.height;
+    console.log(props);
     switch (props.status) {
       case gameStatus.fail:
         this.fail(props.level || 1, props.dudeStatus);
@@ -44,10 +45,6 @@ export class EndScene extends Scene {
         tips = "游戏结束";
         break;
     }
-    // const startButton = this.add
-    //   .text(this.width / 2, this.height / 2, `${tips}! 点我重玩一次`)
-    //   .setInteractive()
-    //   .setOrigin(0.5, 0.5);
     const startButton = new Text(
       this,
       this.width / 2,
@@ -65,16 +62,6 @@ export class EndScene extends Scene {
   }
 
   private victory() {
-    // const startButton = this.add
-    //   .text(
-    //     this.width / 2,
-    //     this.height / 2,
-    //     "Success, 恭喜逃出地狱之地!!! 点我再来一次",
-    //     { fontFamily: "Times New Roman, Times, serif" }
-    //   )
-    //   .setInteractive()
-    //   .setOrigin(0.5, 0.5);
-
     const startButton = new Text(
       this,
       this.width / 2,
@@ -94,16 +81,19 @@ export class EndScene extends Scene {
   private next(level: tLevel) {
     let tips = "恭喜过关! 即将切换到下一关";
 
-    // const startButton = this.add
-    //   .text(this.width / 2, this.height / 2, tips, {
-    //     fontFamily: "Times New Roman, Times, serif",
-    //   })
-    //   .setInteractive()
-    //   .setOrigin(0.5, 0.5);
     const startButton = new Text(this, this.width / 2, this.height / 2, tips);
     startButton.setInteractive().setOrigin(0.5, 0.5);
     this.add.existing(startButton);
 
-    switchLevel(this, level);
+    this.add
+      .timeline([
+        {
+          at: 1000,
+          run: () => {
+            switchLevel(this, level);
+          },
+        },
+      ])
+      .play();
   }
 }

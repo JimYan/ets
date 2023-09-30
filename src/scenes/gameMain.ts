@@ -238,7 +238,6 @@ export class GameScene extends Scene {
       if (x < 0) {
         x = 0;
       }
-      console.log(x, width, this.bgLayer);
       this.bgLayer.setX(x);
     }
 
@@ -343,6 +342,15 @@ export class GameScene extends Scene {
       self.posionTimer.destroy();
       self.dude.status = dudeStatus.sparks;
     });
+
+    // 精灵和出口的碰撞
+    this.physics.add.overlap(this.dude, this.exitLayer, (a: any, b: any) => {
+      const tile = self.exitLayer.getTileAtWorldXY(a.x, a.y);
+      if (tile && tile.properties?.name == "exit") {
+        self.posionTimer.destroy(); // 定时器关闭
+        self.dude.status = dudeStatus.victory;
+      }
+    });
   }
 
   /**
@@ -352,13 +360,6 @@ export class GameScene extends Scene {
     const self = this;
     createPoisonAnimiTimer(this, this.pointerLayer, this.map); // 创建毒药的动画
     this.posionTimer = ceateDudePosionTimer(this.dude); // 设置每秒给精灵增加毒药剂量
-    this.physics.add.overlap(this.dude, this.exitLayer, (a: any, b: any) => {
-      const tile = self.exitLayer.getTileAtWorldXY(a.x, a.y);
-      if (tile && tile.properties?.name == "exit") {
-        self.posionTimer.destroy(); // 定时器关闭
-        self.dude.status = dudeStatus.victory;
-      }
-    });
   }
 
   /**
